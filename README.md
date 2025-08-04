@@ -53,7 +53,7 @@ Hi! I'm Neel Patel (@NeelPatel5150), a passionate Full Stack Developer. This rep
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/NeelPatel5150/FSD.git
+git clone https://github.com/NeelPatel5150/FSD-2.git
 ```
 
 2. Install dependencies:
