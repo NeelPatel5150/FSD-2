@@ -1,0 +1,169 @@
+487)
+Map following SQL queries to MongoDB query:
+(1)	SELECT * FROM USER WHERE status = "A" ORDER BY age DESC
+-> db.USER.find({status:'A'}).sort({age:-1})
+
+(2)	UPDATE USER SET age = age + 3 WHERE status = "A"
+-> db.USER.update({status:'A'},{$inc:{age:3}})
+
+(3)	SELECT * FROM USER WHERE status != "A"
+-> db.USER.find({status:{$ne:'A'}})
+
+488)
+Create a collection name Student. Having fields name, age, std, percentage.
+1)insert 3 random records in table.
+-> db.USER.insertMany([{name:'Gote1', age:21, standard:10, percentage:90}, {name:'Gote2', age:22, standard:11, percentage:91},{name:'Gote3', age:23, standard:12, percentage:93}]) 
+
+2)find name of all student age>5.
+-> db.Student.find({age:{$gt:5}})
+
+3) update the std for all by 1.
+-> db.Student.updateMany({}, {$inc:{standard:1}})
+
+4) arrange all the record of descending order of age
+-> db.Student.find().sort({age:-1})
+
+5)show all the name of student who is the oldest student of all records.
+-> db.Student.find({},{_id:0, name:1}).sort({age:-1}).limit(1)
+
+489)
+Write query to perform following tasks on employee collection having fields
+name, age, position, salary.
+1) Insert 3 documents with random data of having fields name, age, position,
+salary.
+-> db.employee.insertMany([{name: "Alice", age: 28, position: "Full Stack Developer", salary: 70000}, {name: "Bob", age: 35, position: "Backend Developer", salary: 65000}, {name: "Charlie", age: 31, position: "Frontend Developer", salary: 60000}])
+
+2) Count all employees where age is not equal to 35 and position is “Full Stack
+Developer”.
+-> db.employee.find({age:{$ne:35}, position:"Full Stack Developer"}).count()
+
+3) Update position of all employees to “Software Developer” whose name is
+“XYZ” and age is equal to 31. If not such document available than insert the
+document with updated values.
+-> db.employee.updateMany({name:"XYZ", age:31}, {$set:{position:"“Software Developer"}}, {upsert: true})
+
+4) Display position and name of the employee having lowest salary
+-> db.employee.find({}, {_id:0, name:1, position:1}).sort({salary:1}).limit(1)
+
+490)
+Map following SQL queries to MongoDB query:
+(1) select age,name from employee where status="active"
+-> db.employee1.find({status:'active'}, {_id:0, age:1, name:1})
+
+(2) select * from employee where status!="active"
+-> db.employee1.find({status:{$ne:'active'}})
+
+(3) select name from employee order by age desc
+-> db.employee1.find({}, {_id:0,name:1}).sort({age:-1})
+
+(4)select * from employee where status=”active” or age=50
+-> db.employee1.find({$or:[{status:"active"}, {age:50}]})
+
+524)
+Write commands to perform following tasks on employee collection
+having fields name,age & joiningDate:
+(1) Insert 3-4 records in collection.
+-> db.employee2.insertMany([{name: "John", age: 30, joiningDate: new Date("2008-06-15")}, {name: "Alice", age: 28, joiningDate: new Date("2012-03-20")}, {name: "Bob", age: 35, joiningDate: new Date("2009-11-05")}, {name: "XYZ", age: 40, joiningDate: new Date("2015-05-05")}])
+
+(2) List all employees who joined before 1st January, 2010.
+-> db.employee2.find({joiningDate:{$lt:new Date('2010-01-01')}})
+
+(3) Update the name of employees to "WWW" whose joiningDate is "05-05-
+2015"
+-> db.employee2.updateMany({joiningDate: new Date("2015-05-05")}, {$set:{name:"WWW"}}, {upsert:true})
+
+525)
+Write commands to perform following tasks on employee collection
+having fields having name,age & joiningDate:
+(1) Delete all records having joiningDate before 1st January, 2010.
+-> db.employee2.remove({joiningDate:{$lt:new Date('2010-01-01')}})
+
+(2) List all employees having age>50 years.
+-> db.employee2.find({age:{$gt:50}})
+
+(3) List only 1st employee having age>60 years.
+-> db.employee2.find({age:{$gt:60}}).limit(1)
+
+526)
+Write commands to perform following tasks on employee collection
+having fields having name,age & joiningDate:
+(1) Update the name="Senior citizen" having age>60 years.
+-> db.employee3.updateMany({age:{$gt:60}}, {$set:{name:"Senior Citizen"}})
+
+(2) Update the name="JKL" having age=20 years. Insert this record, if it is not
+found.
+-> db.employee3.updateMany({age:20}, {$set:{name:"JKL"}}, {upsert:true})
+
+(3) Retire all employees by deleting senior citizens from collection.
+-> db.employee3.deleteMany({name:'Senior Citizens'})
+
+527)
+Write commands to perform following tasks on employee collection
+having fields having name,age & joiningDate:
+(1) Count no. of employees having age>=60 years.
+-> db.employee4.find({age:{$gte:60}}).count()
+
+(2) List all employees in descending order of names having names "ABC",
+"PQR", "XYZ".
+-> db.employee4.find({name:{$in:["ABC", "PQR", "XYZ"]}}).sort({name:-1})
+
+(3) List all employees whose age lies between 25 to 50 years excluding all rest
+of the fields.
+-> db.employee4.find({age:{$gt:25,$lt:50}}, {_id:0, name:1})
+
+528)
+Map following SQL queries to MongoDB query:
+(1) alter table people add joiningDate datetime
+-> db.people.updateMany({},{$set:{joiningDate:null}})
+
+(2) alter table people drop column joiningDate
+-> db.people.updateMany({},{$unset:{joiningDate:''}})
+
+(3) select age,name from people where status="PH"
+-> db.people.find({status:'PH'},{name:1,age:1,_id:0})
+
+(4) select * from people where status!="PH"
+-> db.people.find({status:{$ne:'PH'}})
+
+(5) select name from people order by age desc
+-> db.people.find({}, {_id:0, name:1}).sort({age:-1})
+
+529)
+Map following SQL queries to MongoDB query:
+(1) update employee set name="TTT" where age not in {12,33,44,55}
+-> db.employee5.updateMany({age:{$nin:[12,33,44,55]}}, {$set:{name:"TTT"}})
+
+(2) select count(*) from employee where age<>23
+-> db.employee5.find({age:{$ne:23}}).count()
+
+(3) update employee set age=age+10
+-> db.employee5.updateMany({}, {$inc:{age:10}})
+
+536)
+Consider following student collection:
+db.student1.insertMany([{_id:123433,name: "SSS",age:22},{_id:123434,name: "YYY",age:2},{_id:123435,name: "PPP",age:32}])
+Do as directed:
+(1) Update name=”JJJ” and age=40, where age=20 occurs. Insert new
+document, if record is not found.
+-> db.student1.updateMany({age:20}, {$set:{name:'JJJ', age:40}}, {upsert:true})
+
+(2) To retrieve age and name fields of documents having names “YYY” &
+“SSS”. Don’t project _id field.
+-> db.student1.find({name:{$in:["YYY","SSS"]}}, {name:1})
+
+538)
+Consider following student collection:
+db.manas.insertMany([{_id:123433,name: "2DD", surname:"GGG", age:22},{_id:123434,name: "LLL", surname:"RRR", age:2},{_id:123435,name: "KKK", surname:"III", age:32},{_id:123436,name: "ZZZ", surname:"TTTT", age:9}])
+Do as directed:
+(1) List all students whose name starts by digit only.
+-> db.manas.find({name:{$regex:^[0-9]}})
+
+(2) List all students whose surname has exactly 4 letters only.
+-> db.manas.find({surname:{$regex:/^[a-zA-Z]{4}$/}})
+
+(3) List only names of students from youngest to oldest.
+-> db.manas.find({}, {_id:0, name:1}).sort({age:1})
+
+(4) List all students whose name has 3-10 letters only. Don't allow digits &
+underscore.
+-> db.manas.find({name:{$regex:^[a-zA-Z]{3,10}$}})

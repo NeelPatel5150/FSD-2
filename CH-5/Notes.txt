@@ -1,0 +1,147 @@
+npm init
+npm install express
+
+const express = require('express');
+const app = express();
+
+app.METHOD(PATH, HANDLER)
+    app.get( '/' , (request,responce) => {} )
+    app.post( '/' , (request,responce) => {} )
+    app.put( '/' , (request,responce) => {} )
+    app.delete( '/' , (request,responce) => {} )
+
+app.listen( 3000 , ()=>{console.log(http://localhost:3000)}  )
+
+Responce Methods :
+    res.set( 'content-type' , 'text/html' ) text/plan  application/json
+    res.write( string )
+    res.send()
+    res.sendFile()
+    res.json() same as send but used to send object // mime type automatically application/json
+
+    Note : 
+        if result.write() is used 
+        then   result.send() and result.sendFile()   BOTH will give error if string is passed
+    Note : 
+        if anything is written after respounce has been sent then it will give error
+
+
+Route parameters :
+    Route path: /users/:userId/books/:bookId
+    Request URL: http://localhost:3000/users/34/books/8989
+    req.params: { "userId": "34", "bookId": "8989" }
+
+FORM mehod = "get/post"  action=path
+    GET :
+        let x = request.query.variablename
+    POST :
+        app.use( express.urlencoded() )
+        let x = request.body.variablename
+
+
+app.use( express.static(folder_name  ,  [options..]) )
+
+app.use( 'path' , (req,res,next) => {
+
+} )
+
+
+
+COOKIES : 
+    const cookieParser = require('cookie-parser')
+    app.use(cookieParser());
+
+    res.cookie( name , 'value' , {maxAge: 1000*60*60*24*365} );
+    res.clearCookie(“cookie-name”)
+
+    console.log( ‘cookies:’ , req.cookies )
+
+SESSION :
+    const session = require( 'express-session' )
+        
+    app.use( session(
+        {
+            secret : 'Hamza Qureshi' , 
+            saveUninitialized : true ,
+            resave:true,
+            cookie: { maxAge: 1000 * 60 * 60 * 24 }
+        }
+    ) )//Creates a new cookie connect.sid
+
+    req.session.uname = req.query.uname
+    uname = req.session.uname
+
+    req.session.destroy()
+    res.clearCookie( 'connect.sid' )
+
+FileUpload : 
+    <form action='/data' method='post' enctype='multipart/form-data'>
+    < input type="file" name='myfiles' multiple >
+
+    const multer = require('multer')
+    var store = multer.diskStorage( {
+        destination : "newFolder",
+        filename : (req,file,cb) => 
+        {
+            cb( null , file.originalname )
+        }
+    } )
+    var upload = multer( { storage : store } ).array('myfiles',5)
+
+    app.post( '/data' , upload , (req,res) => {
+        res.send( req.files )
+    } )
+
+Rest_API :
+    file1 : 
+        1. create express.Router() object  
+        2. define Pages
+        3. export
+    file2 :
+        const router = require()
+        app.use('/' , router)
+
+        
+PUG :
+    npm install pug
+
+    app.set('view engine', 'pug');
+    app.set('views',__dirname);
+
+    res.render( 'profile' , [locals], callback)
+    PUG file 
+        #{name}
+
+
+Nodemailer :   
+    const nodemailer = require('nodemailer')
+
+    let transport = nodemailer.createTransport( {
+        host: 'smtp.gmail.com' ,
+        port: 465 ,
+        secure: true ,
+        auth : {
+            user : 'my email' , 
+            pass : 'my pass'
+        }
+    } )
+
+    mailOptions = {
+        from : 'my email',
+        to : 'reciver email ',
+        subject : 'subject',
+        html : ' lksdjlakjdlaskj '
+    }
+
+    transport.sendMail( mailOptions , (err,info) => {
+        if(err)
+        {
+            console.error(err)
+        }
+        else
+        {
+            console.log( ` mail has been sent : ${info.responce}` )
+        }
+    } )
+
+qinsednvsjgcyvar

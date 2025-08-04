@@ -1,0 +1,28 @@
+<!-- Write a script to display sum of two numbers which are passed as an
+argument in function named Total. the sum should display in any html
+element. Use callback as third argument in Total function.
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="sum"></p>
+    <script>
+        function Total(a, b, callback) {
+            let sum = a + b;
+            callback(sum);
+        }
+        Total(10, 20, function(sum) {
+            document.getElementById("sum").innerHTML = sum;
+        });
+    </script>
+</body>
+
+</html>

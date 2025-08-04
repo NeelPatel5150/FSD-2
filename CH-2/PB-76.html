@@ -1,0 +1,31 @@
+<!-- Write Node.Js code that display "Hello" with incresing font-size in interval of
+50 miliseconds in blue color. When font-size reaches to 50 pixel it should
+stop.
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="hello">Hello</h1>
+    <script>
+        let fontSize = 10;
+        const s = document.getElementById('hello');
+        const intervalId = setInterval(() => {
+            fontSize++;
+            s.style.fontSize = fontSize + 'px';
+            s.style.color = 'blue';
+            if (fontSize === 50) {
+                clearInterval(intervalId);
+            }
+        }, 50);
+    </script>
+</body>
+
+</html>
